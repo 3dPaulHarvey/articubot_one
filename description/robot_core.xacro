@@ -105,7 +105,7 @@
 
     </link>
 
-    <!-- Caster Wheel -->
+    <!-- Caster Wheell -->
     <joint name = "caster_wheel_joint" type ="fixed" >
         <parent link = "base_link"/>
         <child link = "caster" />
