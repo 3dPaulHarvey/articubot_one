@@ -1,29 +1,25 @@
 <?xml version="1.0"?>
 <robot name="simple_box_robot">
-  <!-- Define the link -->
+
   <link name="base_link">
-  
-    <!-- Visual properties of the link -->
+
     <visual>
+      <origin xyz="0 0 0"/>      
       <geometry>
-        <box size="0.5 0.5 0.5" /> <!-- Dimensions of the box: length, width, height -->
+        <box size="0.5 0.5 0.5" /> 
       </geometry>
-      <material name="blue">
-        <color rgba="0 0 1 1" /> <!-- Color of the box: blue -->
-      </material>
     </visual>
-    
-    <!-- Collision properties of the link -->
+
     <collision>
       <geometry>
         <box size="0.5 0.5 0.5" />
       </geometry>
     </collision>
     
-    <!-- Inertial properties of the link, important for simulation -->
     <inertial>
-      <mass value="1.0" /> <!-- Mass of the box -->
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1" /> <!-- Inertia tensor components -->
+      <mass value="1.0" /> 
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1" /> 
     </inertial>
+    
   </link>
 </robot>

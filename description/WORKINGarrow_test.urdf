@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+
+<robot
+  name="arrow_test">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="2.2477E-16 -4.8328E-17 0.002843"
+        rpy="0 0 0" />
+      <mass
+        value="0.0077966" />
+      <inertia
+        ixx="1.2379E-06"
+        ixy="-1.5445E-21"
+        ixz="-6.9596E-23"
+        iyy="1.2379E-06"
+        iyz="6.0037E-23"
+        izz="2.4314E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://arrow_test/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://arrow_test/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link
+    name="arrow_link">
+    <inertial>
+      <origin
+        xyz="4.9234E-20 0.0062049 -0.0053377"
+        rpy="0 0 0" />
+      <mass
+        value="0.0021001" />
+      <inertia
+        ixx="1.4485E-07"
+        ixy="-6.8321E-25"
+        ixz="-1.6927E-25"
+        iyy="1.5942E-07"
+        iyz="2.0123E-08"
+        izz="4.6852E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://arrow_test/meshes/arrow_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://arrow_test/meshes/arrow_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="arrow_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.01325"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="arrow_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="0"
+      velocity="0" />
+  </joint>
+</robot>
