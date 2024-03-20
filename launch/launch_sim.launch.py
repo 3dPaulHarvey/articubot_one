@@ -1,7 +1,7 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 from launch_ros.actions import Node
@@ -34,12 +34,15 @@ def generate_launch_description():
                                    '-entity', 'my_bot'],
                         output='screen')
 
+    delayed_load_diff_cont = TimerAction(period=3.0, actions=[spawn_entity])
 
     load_diff_cont = Node(
         package='controller_manager',
         executable='spawner',
         arguments=['diff_cont'],
     )
+
+    delayed_load_joint_broad = TimerAction(period=3.0, actions=[spawn_entity])
 
     load_joint_broad = Node(
         package='controller_manager',
@@ -84,6 +87,6 @@ def generate_launch_description():
         gazebo,
         spawn_entity,
         # controller_manager_node,
-        load_diff_cont,
-        load_joint_broad,
+        #load_diff_cont,
+        #load_joint_broad,
     ])
