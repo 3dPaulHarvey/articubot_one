@@ -22,9 +22,16 @@
 
 <!-- Base Link -->
   <link name="base_link">
-
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1" />
+      </geometry>
+    </visual>
   </link>
-
+  <gazebo reference="base_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
   
 <!-- Chassis -->
     <joint name = "chassis_joint" type="fixed">
@@ -49,10 +56,10 @@
         </collision>
         <inertial>
             <mass value="1.0" />
-            <inertia ixx="0.00005" ixy="0.0" ixz="0.0"
-                    iyy="0.00005" iyz="0.0"
-                    izz="0.00005" />
-            <origin xyz = "0.15 0 0.075" rpy = "0 0 0"/>
+            <inertia ixx="${(1/12) * 1.0 * (0.3 *0.3 +0.15*0.15)}" ixy="0.0" ixz="0.0"
+                    iyy="${(1/12) * 1.0 * (0.3 *0.3 +0.15*0.15)}" iyz="0.0"
+                    izz="${(1/12) * 1.0 * (0.3 *0.3 +0.3 *0.3 )}" />
+            <origin xyz = "0.15 0 0.75" rpy = "0 0 0"/>
         </inertial>
     </link>
   <gazebo reference="chassis">
@@ -144,10 +151,10 @@
             </geometry>
         </collision>
         <inertial>
-            <mass value="0.5" />
-            <inertia ixx="0.00005" ixy="0.0" ixz="0.0"
-                    iyy="0.00005" iyz="0.0"
-                    izz="0.00005" />
+            <mass value="1" />
+            <inertia ixx="${(2/5) * 0.1 * (0.05*0.05)}" ixy="0.0" ixz="0.0"
+                    iyy="${(2/5) * 0.1 * (0.05*0.05)}" iyz="0.0"
+                    izz="${(2/5) * 0.1 * (0.05*0.05)}" />
             <origin xyz = "0 0 0" rpy = "0 0 0"/>
         </inertial>
     </link>

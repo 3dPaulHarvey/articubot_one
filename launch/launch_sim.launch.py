@@ -15,13 +15,17 @@ def generate_launch_description():
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory(package_name),'launch','rsp.launch.py'
-                )]), launch_arguments={'use_sim_time': 'true'}.items()
+                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
     )
+
+    #Set a higher frame rate for gazebo 
+    gazebo_params_file = os.path.join(get_package_share_directory(package_name),'config','gazebo_params.yaml')
 
     # Include the Gazebo launch file, provided by the gazebo_ros package
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
+                    launch_arguments={'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
              )
 
     # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
@@ -31,32 +35,45 @@ def generate_launch_description():
                         output='screen')
 
 
-####################
-        # Path to the controller configuration YAML file
-    controller_config = os.path.join(
-        get_package_share_directory(package_name),
-        'config',
-        'my_controllers.yaml'
-    )
-
-    # Launch the controller_manager and load the controllers
-    controller_manager_node = Node(
+    load_diff_cont = Node(
         package='controller_manager',
-        executable='ros2_control_node',
-        parameters=[{'use_sim_time': True},
-                    controller_config],
-        output='screen',
+        executable='spawner',
+        arguments=['diff_cont'],
     )
 
-    # Optionally, automatically load and start controllers at launch
-    load_and_start_controller = Node(
+    load_joint_broad = Node(
         package='controller_manager',
-        executable='spawner.py',
-        arguments=['diff_cont', '--controller-manager', '/controller_manager'],
+        executable='spawner',
+        arguments=['joint_broad'],
     )
 
 
-###############
+# ####################
+#         # Path to the controller configuration YAML file
+#     controller_config = os.path.join(
+#         get_package_share_directory(package_name),
+#         'config',
+#         'my_controllers.yaml'
+#     )
+
+#     # Launch the controller_manager and load the controllers
+#     controller_manager_node = Node(
+#         package='controller_manager',
+#         executable='ros2_control_node',
+#         parameters=[{'use_sim_time': True},
+#                     controller_config],
+#         output='screen',
+#     )
+
+
+#     load_and_start_controller2 = Node(
+#         package='controller_manager',
+#         executable='spawner',
+#         arguments=['joint_broad', '--controller-manager', '/controller_manager'],
+#     )
+
+
+# ###############
 
 
 
@@ -66,4 +83,7 @@ def generate_launch_description():
         rsp,
         gazebo,
         spawn_entity,
+        # controller_manager_node,
+        load_diff_cont,
+        load_joint_broad,
     ])
