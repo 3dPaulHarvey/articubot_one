@@ -20,7 +20,7 @@ find_package(ament_cmake REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(controller_manager REQUIRED)
 find_package(control_msgs REQUIRED)
-find_package(gazebo_ros REQUIRED)
+#find_package(gazebo_ros REQUIRED)
 
 
 
