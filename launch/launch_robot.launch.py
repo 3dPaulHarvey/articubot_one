@@ -6,11 +6,12 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command
+from launch.substitutions import Command, FindExecutable, PathJoinSubstitution
 from launch.actions import RegisterEventHandler
 from launch.event_handlers import OnProcessStart
 
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 
@@ -28,30 +29,33 @@ def generate_launch_description():
                 )]), launch_arguments={'use_sim_time': 'false', 'use_ros2_control': 'true'}.items()
     )
 
-    # joystick = IncludeLaunchDescription(
-    #             PythonLaunchDescriptionSource([os.path.join(
-    #                 get_package_share_directory(package_name),'launch','joystick.launch.py'
-    #             )])
-    # )
+    robot_description_content = Command(
+        [
+            PathJoinSubstitution([FindExecutable(name="xacro")]),
+            " ",
+            PathJoinSubstitution(
+                [FindPackageShare("articubot_one"), "description", "robot.urdf.xacro"]
+            ),
+        ]
+    )
+    robot_description = {"robot_description": robot_description_content}
 
-
-
-
-    
-
-
-    robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
-
-    controller_params_file = os.path.join(get_package_share_directory(package_name),'config','my_controllers.yaml')
-
-    controller_manager = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[{'robot_description': robot_description},
-                    controller_params_file]
+    robot_controllers = PathJoinSubstitution(
+        [
+            FindPackageShare("articubot_one"),
+            "config",
+            "my_controllers.yaml",
+        ]
     )
 
-    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
+    controller_manager_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[robot_description, robot_controllers],
+        output="both",
+    )
+
+    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager_node])
 
     diff_drive_spawner = Node(
         package="controller_manager",
@@ -61,7 +65,7 @@ def generate_launch_description():
 
     delayed_diff_drive_spawner = RegisterEventHandler(
         event_handler=OnProcessStart(
-            target_action=controller_manager,
+            target_action=controller_manager_node,
             on_start=[diff_drive_spawner],
         )
     )
@@ -74,7 +78,7 @@ def generate_launch_description():
 
     delayed_joint_broad_spawner = RegisterEventHandler(
         event_handler=OnProcessStart(
-            target_action=controller_manager,
+            target_action=controller_manager_node,
             on_start=[joint_broad_spawner],
         )
     )
@@ -101,9 +105,8 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription([
         rsp,
-        # joystick,
-
-        delayed_controller_manager,
-        delayed_diff_drive_spawner,
-        delayed_joint_broad_spawner
+       
+        controller_manager_node,
+        #delayed_diff_drive_spawner,
+        #delayed_joint_broad_spawner
     ])

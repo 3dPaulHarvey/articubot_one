@@ -33,19 +33,19 @@
     </ros2_control>
 
     <!-- Original -->
-    <!-- <gazebo>
+    <gazebo>
         <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
             <parameters>$(find articubot_one)/config/my_controllers.yaml</parameters>
         </plugin>
-    </gazebo> -->
+    </gazebo>
 
-    <gazebo>
+    <!-- <gazebo>
       <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
         <robot_param>robot_description</robot_param>
         <robot_param_node>robot_state_publisher</robot_param_node>
             <parameters>$(find articubot_one)/config/my_controllers.yaml</parameters>
         <controller_manager_name>simulation_controller_manager</controller_manager_name>
       </plugin>
-  </gazebo>
+  </gazebo> -->
 
 </robot>
