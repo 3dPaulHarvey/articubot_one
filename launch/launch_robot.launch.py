@@ -48,14 +48,17 @@ def generate_launch_description():
         ]
     )
 
-    controller_manager_node = Node(
+    control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[robot_description, robot_controllers],
+        parameters=[robot_controllers],
         output="both",
+        remappings=[
+            ("~/robot_description", "/robot_description"),
+        ],
     )
 
-    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager_node])
+    delayed_controller_manager = TimerAction(period=3.0, actions=[control_node])
 
     diff_drive_spawner = Node(
         package="controller_manager",
@@ -65,7 +68,7 @@ def generate_launch_description():
 
     delayed_diff_drive_spawner = RegisterEventHandler(
         event_handler=OnProcessStart(
-            target_action=controller_manager_node,
+            target_action=control_node,
             on_start=[diff_drive_spawner],
         )
     )
@@ -78,7 +81,7 @@ def generate_launch_description():
 
     delayed_joint_broad_spawner = RegisterEventHandler(
         event_handler=OnProcessStart(
-            target_action=controller_manager_node,
+            target_action=control_node,
             on_start=[joint_broad_spawner],
         )
     )
@@ -106,7 +109,7 @@ def generate_launch_description():
     return LaunchDescription([
         rsp,
        
-        controller_manager_node,
+        control_node,
         #delayed_diff_drive_spawner,
         #delayed_joint_broad_spawner
     ])
