@@ -63,7 +63,7 @@ ament_target_dependencies(
 )
 
 # Define compile definitions for the target. Specifically, define a macro for
-# dll export/import directives.
+############################## dll export/import directives.
 #target_compile_definitions(${PROJECT_NAME} PRIVATE "ROS2_CONTROL_DEMO_EXAMPLE_2_BUILDING_DLL")
 
 # Export the plugin description file so it can be discovered by pluginlib.
