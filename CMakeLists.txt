@@ -22,14 +22,15 @@ find_package(ament_cmake REQUIRED)
 # find_package(control_msgs REQUIRED)
 # find_package(gazebo_ros REQUIRED)
 
-#########################ROS2 Control Section
+######################### ROS2 Control Section ######################
 # List of ROS 2 dependencies required by this package.
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   hardware_interface
   pluginlib
   rclcpp
   rclcpp_lifecycle
-  geometry_msgs 
+  geometry_msgs
+  sensor_msgs 
 )
 
 # Find the ament_cmake package and each dependency listed above.
@@ -69,13 +70,29 @@ ament_target_dependencies(
 # Export the plugin description file so it can be discovered by pluginlib.
 pluginlib_export_plugin_description_file(hardware_interface ros2_control_demo_example_2.xml)
 
-############ROS2 Control Section
+############ROS2 Control Section #######################################
 
-##### Twist Stamper
+##### Twist Stamper  ###
 add_executable(twist_to_twist_stamped_converter src/twist_to_twist_stamped_converter.cpp)
 ament_target_dependencies(twist_to_twist_stamped_converter rclcpp geometry_msgs)
 install(TARGETS twist_to_twist_stamped_converter
   DESTINATION lib/${PROJECT_NAME})
+
+##### Joy Listener ###
+add_executable(joy_listener src/joy_listener.cpp)
+ament_target_dependencies(joy_listener rclcpp sensor_msgs)
+install(TARGETS
+  joy_listener
+  DESTINATION lib/${PROJECT_NAME})
+
+####### Joy Twist Stamped ####
+add_executable(joy_to_twist_stamped src/joy_to_twist_stamped.cpp)
+ament_target_dependencies(joy_to_twist_stamped rclcpp sensor_msgs geometry_msgs)
+install(TARGETS
+  joy_to_twist_stamped
+  DESTINATION lib/${PROJECT_NAME})
+
+
 
 
 ################# Install
