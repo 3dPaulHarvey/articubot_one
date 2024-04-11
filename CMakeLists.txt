@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(articubot_one)
 
-# Default to C99
+# Default to C17
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 17)
 endif()
