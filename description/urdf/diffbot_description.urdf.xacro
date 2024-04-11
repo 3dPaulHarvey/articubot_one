@@ -137,7 +137,7 @@
         </geometry>
         <material name="white"/>
       </visual>
-
+ 
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="${caster_wheel_mass}"/>
