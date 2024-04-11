@@ -22,13 +22,9 @@ private:
         twist_stamped_msg.header.stamp = this->get_clock()->now();
         
         // Linear velocity (forward/backward) controlled by left stick vertical axis
-        // Assuming axis 1 is the vertical axis of the left stick
-        // Adjust the index and scale factor as necessary for your controller
         twist_stamped_msg.twist.linear.x = msg->axes[1] * linear_scale;
 
         // Angular velocity (turning) controlled by right stick horizontal axis
-        // Assuming axis 3 is the horizontal axis of the right stick
-        // Adjust the index and scale factor as necessary for your controller
         twist_stamped_msg.twist.angular.z = msg->axes[0] * angular_scale;
 
         publisher_->publish(twist_stamped_msg);
