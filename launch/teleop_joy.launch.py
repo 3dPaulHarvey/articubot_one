@@ -8,12 +8,16 @@ import os
 
 
 def generate_launch_description():
-    joy_config_file = os.path.join(
-        get_package_share_directory('articubot_one'),
-        'bringup',
-        'config',
-        'joystick_params.yaml'
-    )
+
+
+    # joy_config_file = os.path.join(
+    #     get_package_share_directory('articubot_one'),
+    #     'bringup',
+    #     'config',
+    #     'joystick_params.yaml'
+    # )
+    joy_config_file = os.path.join(get_package_share_directory('articubot_one'),'config','joystick_params.yaml')
+
 
     return LaunchDescription([
         Node(
@@ -21,6 +25,7 @@ def generate_launch_description():
             executable='joy_node',
             name='joy_node',
             output='screen',
+            parameters=[joy_config_file],
         ),
         Node(
             package='teleop_twist_joy',
@@ -29,10 +34,10 @@ def generate_launch_description():
             output='screen',
             parameters=[joy_config_file],
         ),
-        # Node(
-        #     package='your_package_name',
-        #     executable='twist_to_twist_stamped_converter',
-        #     name='twist_to_twist_stamped_converter_node',
-        #     output='screen',
-        # )
+        Node(
+            package='articubot_one',
+            executable='joy_to_twist_stamped',
+            name='joy_to_twist_stamped_node',
+            output='screen',
+        )
     ])

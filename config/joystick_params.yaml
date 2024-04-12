@@ -1,5 +1,11 @@
+joy_node:
+  ros__parameters:
+    device_id: 0      #change perhaps
+    deadzone: 0.05
+    autorepeat_rate: 20.0   #rate
+
 teleop_twist_joy_node:
-    ros__parameters:
+  ros__parameters:
     axis_linear:
       x: 1  # Joystick axis for linear x movement (forward/backward)
     scale_linear:
@@ -8,5 +14,4 @@ teleop_twist_joy_node:
       yaw: 0  # Joystick axis for angular yaw movement (left/right)
     scale_angular:
       yaw: 0.5  # Scaling factor for angular movement
-    enable_button: 5  # Button to enable the joystick control
     enable_turbo_button: 7  # Button for activating turbo mode (increased speed)
